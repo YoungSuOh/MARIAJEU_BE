@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mariajeu?serverTimezone=Asia/Seoul
     username: root
-    password: zpzzgjdg@$^1
+    password: Simzard10!
 
   jpa:
     open-in-view: true
