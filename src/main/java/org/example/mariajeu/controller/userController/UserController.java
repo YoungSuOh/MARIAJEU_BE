@@ -62,7 +62,7 @@ public class UserController {
 //    }
 
     @PatchMapping("/modify")
-    public ResponseEntity<?> modify(@RequestBody UserModifyRequest dto, Authentication authentication) {
+    public ResponseEntity<?> modify(@Valid @RequestBody UserModifyRequest dto, Authentication authentication) {
         String userName = authentication.getName();
         if(!userService.CheckPassword(userName,dto.getPassword()))
             throw new AppException(ErrorCode.BAD_REQUEST, "Invalid password.");

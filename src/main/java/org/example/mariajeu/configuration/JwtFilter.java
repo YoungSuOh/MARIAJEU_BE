@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.mariajeu.utils.RedisUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +23,6 @@ import java.nio.file.AccessDeniedException;
 public class JwtFilter extends OncePerRequestFilter{
 
     private final JwtTokenUtil jwtTokenUtil;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -38,7 +38,6 @@ try{
 
         if (jwtTokenUtil.isExpired(token)){
             throw new AppException(ErrorCode.UNAUTHORIZED, "만료된 토큰.");
-
         }
 
         if (!jwtTokenUtil.validateToken(token)) {

@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
         User user = selectedUser.orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND, "사용자를 찾을 수 없습니다."));
 
         if(dto.getNewPassword() != null) {
-            if(encoder.matches(user.getPassword(),user.getPassword())) {
+            if(encoder.matches(dto.getNewPassword(),user.getPassword())) {
                 throw new AppException(ErrorCode.CONFLICT, "이미 같은 비밀번호로 설정되어 있습니다.");
             }
 
