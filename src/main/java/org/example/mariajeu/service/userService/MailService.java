@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 @RequiredArgsConstructor
@@ -20,14 +21,16 @@ public class MailService {
     private final RedisUtil redisUtil;
 
     public void makeRandomNumber() {
-        Random r = new Random();
-        String randomNumber = "";
-        for(int i = 0; i < 6; i++) {
-            randomNumber += Integer.toString(r.nextInt(10));
+        SecureRandom secureRandom = new SecureRandom();
+        StringBuilder randomNumber = new StringBuilder();
+
+        for (int i = 0; i < 6; i++) {
+            randomNumber.append(secureRandom.nextInt(10));
         }
 
-        authNumber = Integer.parseInt(randomNumber);
+        authNumber = Integer.parseInt(randomNumber.toString());
     }
+
 
     public String joinEmail(String email) {
         makeRandomNumber();
@@ -35,11 +38,11 @@ public class MailService {
         String toMail = email;
         String title = "[Mariajeu]회원 가입 인증 이메일 입니다."; // 이메일 제목
         String content =
-                "Mariajeu 회원가입 코드입니다. 감사합니다." + 	//html 형식으로 작성 !
+                "Mariajeu 회원가입 코드입니다." + 	//html 형식으로 작성 !
                         "<br><br>" +
-                        "인증 번호는 " + authNumber + "입니다." +
-                        "<br>" +
-                        "인증번호를 제대로 입력해주세요"; //이메일 내용 삽입
+                        "인증 번호는 [" + authNumber + "] 입니다." +
+                        "<br><br>" +
+                        "인증번호를 제대로 입력해주세요";
         mailSend(setFrom, toMail, title, content);
         redisUtil.setDataExpire(Integer.toString(authNumber),email,1000*60*5);
         return Integer.toString(authNumber);
