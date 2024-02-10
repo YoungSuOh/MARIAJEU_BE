@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/swagger-ui/**","/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/users/join","/users/login").permitAll()
                         .requestMatchers(HttpMethod.POST,"/mail/**").permitAll()
                         .anyRequest().authenticated()
@@ -53,6 +54,5 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 
 }
