@@ -64,12 +64,4 @@ public class LoginService {
 
     }
 
-    public String getKakaoAccessToken(String code){
-
-        return "";
-    }
-    public HashMap<String, Object> getUserInfo(String accessToken){
-        return null;
-    }
-
 }

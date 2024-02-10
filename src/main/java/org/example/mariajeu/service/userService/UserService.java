@@ -12,8 +12,6 @@ public interface UserService {
 
     void join(UserJoinRequest dto);
 
-    //TokenDto login(String userName, String password);
-
     void modifyUser(String userName, UserModifyRequest dto);
 
     Boolean CheckPassword(String selectedUserName, String selectedUserPassword);

@@ -7,7 +7,6 @@ import org.example.mariajeu.dto.userDto.UserListResponse;
 import org.example.mariajeu.dto.userDto.UserModifyRequest;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
-import org.example.mariajeu.repository.userRepository.JwtRepository;
 import org.example.mariajeu.repository.userRepository.TermsRepository;
 import org.example.mariajeu.repository.userRepository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -30,16 +29,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final TermsRepository termsRepository;
-    private final JwtRepository jwtRepository;
     private final BCryptPasswordEncoder encoder;
 
     private final EntityManager em;
-
-//    @Value("${jwt.token.secret}")
-//    private String key;
-//    private Long expireTimeMs = 60 * 60 * 1000L;
-//    private Long RefreshTokenexpireTimeMs = 24 * 60 * 60 * 1000L;
-
 
     @Override
     public void join(UserJoinRequest dto){

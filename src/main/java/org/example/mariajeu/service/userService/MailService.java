@@ -10,7 +10,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
@@ -30,7 +29,6 @@ public class MailService {
 
         authNumber = Integer.parseInt(randomNumber.toString());
     }
-
 
     public String joinEmail(String email) {
         makeRandomNumber();
