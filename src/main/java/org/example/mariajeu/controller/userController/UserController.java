@@ -1,5 +1,6 @@
 package org.example.mariajeu.controller.userController;
 
+import jakarta.validation.Valid;
 import org.example.mariajeu.domain.userDomain.Role;
 import org.example.mariajeu.dto.userDto.*;
 import org.example.mariajeu.exception.AppException;
@@ -30,7 +31,7 @@ public class UserController {
     private final MailService mailService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody UserJoinRequest dto) {
+    public ResponseEntity<?> join(@Valid @RequestBody UserJoinRequest dto) {
         if (!dto.isAgreedToTerms1() || !dto.isAgreedToTerms2())
             throw new AppException(ErrorCode.BAD_REQUEST, "Terms agreement is required.");
 
@@ -47,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest dto){
+    public ResponseEntity<?> login(@Valid @RequestBody UserLoginRequest dto){
         TokenDto token = loginService.login(dto.getUserName(), dto.getPassword());
 
         return ResponseEntity.ok().body(token);

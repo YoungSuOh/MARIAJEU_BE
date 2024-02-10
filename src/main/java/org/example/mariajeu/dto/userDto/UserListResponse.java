@@ -7,14 +7,11 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 public class UserListResponse {
     private String userName;
     private String name;
     private String email;
     private String nickName;
     private Role role;
-
-
 
 }

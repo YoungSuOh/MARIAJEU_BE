@@ -1,9 +1,9 @@
 spring:
   datasource:
+    url: jdbc:mysql://localhost:3306/beom
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mariajeu?serverTimezone=Asia/Seoul
     username: root
-    password: zpzzgjdg@$^1
+    password: duatmdqja09
 
   jpa:
     open-in-view: true

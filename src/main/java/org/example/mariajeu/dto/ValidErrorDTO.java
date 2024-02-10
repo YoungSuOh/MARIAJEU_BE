@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter @Setter @Builder
-public class ErrorDTO {
+public class ValidErrorDTO {
     private String errorCode;
-    private String errorContent;
+    private List<String> errorContent;
 }
