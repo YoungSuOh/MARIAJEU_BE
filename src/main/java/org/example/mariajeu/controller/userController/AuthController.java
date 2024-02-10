@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("/reissue/{refreshToken}")
-    public ResponseEntity<TokenDto> reissue(HttpServletRequest request, HttpServletResponse response,
-                                            @PathVariable("refreshToken") String refreshToken) {
+    @PostMapping("/reissue")
+    public ResponseEntity<TokenDto> reissue(HttpServletRequest request, HttpServletResponse response) {
+        String authorization = request.getHeader("Authorization");
+        String refreshToken = authorization.split(" ")[1];
         String newAccessToken = authService.reissue(refreshToken);
-        response.setHeader("Authorization", "Bearer " + newAccessToken);
+        //response.setHeader("Authorization", "Bearer " + newAccessToken);
         TokenDto tokenDto = new TokenDto(newAccessToken,null);
         return ResponseEntity.ok().body(tokenDto);
     }

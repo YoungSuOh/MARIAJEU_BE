@@ -54,13 +54,6 @@ public class UserController {
         return ResponseEntity.ok().body(token);
     }
 
-//    @ResponseBody
-//    @PostMapping("/kakao/login")
-//    public ResponseEntity<?> kakaoLogin(@RequestParam(required = false) String code){
-//        String accessToken = loginService.getKakaoAccessToken(code);
-//        System.out.println(accessToken);
-//    }
-
     @PatchMapping("/modify")
     public ResponseEntity<?> modify(@Valid @RequestBody UserModifyRequest dto, Authentication authentication) {
         String userName = authentication.getName();
@@ -89,17 +82,20 @@ public class UserController {
     }
 
     @DeleteMapping("deleteUser/{userName}")
-    public ResponseEntity<?> deleteUser(@PathVariable("userName") String userName, Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<UserDeleteResponse> deleteUser(@PathVariable("userName") String userName, Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         String reqUser = authentication.getName();
         Role targetRole = userService.getUser(reqUser).getRole();
-        Map<String, Object> resp = new HashMap<>();
 
         if (targetRole.equals(Role.ADMIN) || reqUser.equals(userName)) {
             userService.deleteUser(userName);
             logoutService.logout(request, response, authentication);
-            resp.put("status",200);
-            resp.put("contents","유저 삭제가 완료되었습니다");
-            return ResponseEntity.ok(resp);
+
+            UserDeleteResponse userDeleteResponse = UserDeleteResponse.builder()
+                    .status("200")
+                    .userName(userName)
+                    .build();
+
+            return ResponseEntity.ok(userDeleteResponse);
         }
         else
             throw new AppException(ErrorCode.BAD_REQUEST, "you don't currently have permission to access this.");

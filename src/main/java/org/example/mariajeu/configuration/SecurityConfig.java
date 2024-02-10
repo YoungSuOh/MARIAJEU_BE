@@ -1,5 +1,8 @@
 package org.example.mariajeu.configuration;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.mariajeu.exception.AppException;
+import org.example.mariajeu.exception.ErrorCode;
 import org.example.mariajeu.service.userService.LogoutService;
 import org.example.mariajeu.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +49,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-        ;
+                );
 
         return http.build();
     }

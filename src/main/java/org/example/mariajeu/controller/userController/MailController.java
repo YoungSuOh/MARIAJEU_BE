@@ -1,5 +1,6 @@
 package org.example.mariajeu.controller.userController;
 
+import org.example.mariajeu.dto.userDto.EmailResponse;
 import org.example.mariajeu.dto.userDto.EmailCheck;
 import org.example.mariajeu.dto.userDto.EmailRequest;
 import org.example.mariajeu.exception.AppException;
@@ -13,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -24,24 +22,29 @@ public class MailController {
     private final MailService mailService;
 
     @PostMapping("/Send")
-    public ResponseEntity<?> mailSend(@RequestBody @Valid EmailRequest emailDto) {
+    public ResponseEntity<EmailResponse> mailSend(@RequestBody @Valid EmailRequest emailDto) {
         System.out.println("이메일 인증 이메일 :" + emailDto.getEmail());
 
-        Map<String, Object> resp = new HashMap<>();
-        resp.put("status",200);
-        resp.put("contents",mailService.joinEmail(emailDto.getEmail()));
+        EmailResponse emailResponse = EmailResponse.builder()
+                .status("200")
+                .message(mailService.joinEmail(emailDto.getEmail()))
+                .build();
 
-        return ResponseEntity.ok(resp);
+
+        return ResponseEntity.ok(emailResponse);
     }
 
     @PostMapping("/AuthCheck")
-    public ResponseEntity<?> AuthCheck(@RequestBody @Valid EmailCheck emailCheckDto){
+    public ResponseEntity<EmailResponse> AuthCheck(@RequestBody @Valid EmailCheck emailCheckDto){
         Boolean Checked=mailService.CheckAuthNum(emailCheckDto.getEmail(),emailCheckDto.getAuthNum());
-        Map<String, Object> resp = new HashMap<>();
-        resp.put("status",200);
-        resp.put("contents","인증이 완료되었습니다");
+
+        EmailResponse emailResponse = EmailResponse.builder()
+                .status("200")
+                .message("인증이 완료되었습니다")
+                .build();
+
         if(Checked){
-            return ResponseEntity.ok(resp);
+            return ResponseEntity.ok(emailResponse);
         }
         else{
             throw new AppException(ErrorCode.BAD_REQUEST,"인증 번호가 맞지 않습니다.");
