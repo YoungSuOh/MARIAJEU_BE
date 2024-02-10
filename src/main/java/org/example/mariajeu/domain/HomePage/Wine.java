@@ -1,4 +1,4 @@
-package org.example.mariajeu.domain;
+package org.example.mariajeu.domain.HomePage;
 
 
 import jakarta.persistence.*;

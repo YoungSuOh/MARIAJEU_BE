@@ -1,4 +1,4 @@
-package org.example.mariajeu.domain;
+package org.example.mariajeu.domain.HomePage.FoodArticle;
 
 import jakarta.persistence.*;
 @Entity
@@ -7,7 +7,7 @@ public class FoodArticleLikes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /*@ManyToOne
+    /* @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;*/
 

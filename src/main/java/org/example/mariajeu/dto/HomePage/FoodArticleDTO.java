@@ -1,11 +1,12 @@
-package org.example.mariajeu.dto;
+package org.example.mariajeu.dto.HomePage;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.mariajeu.domain.Food;
-import org.example.mariajeu.domain.FoodArticle;
-import org.example.mariajeu.domain.Wine;
-import org.example.mariajeu.domain.WineType;
+import org.example.mariajeu.domain.HomePage.Food;
+import org.example.mariajeu.domain.HomePage.FoodArticle.FoodArticle;
+import org.example.mariajeu.domain.HomePage.Ingredient;
+import org.example.mariajeu.domain.HomePage.Wine;
+import org.example.mariajeu.domain.HomePage.WineType;
 
 import java.util.List;
 
@@ -17,12 +18,12 @@ public class FoodArticleDTO {
     private String foodEnglishName;
     private String photoUrl;
     private String videoUrl;
-    private List<String> primaryIngredients;
-    private List<String> sauceIngredients;
+    private List<Ingredient> primaryIngredients;
+    private List<Ingredient> sauceIngredients;
     private List<String> instructions;
 
     private String wineName;
-    private String wineType;
+    private WineType wineType;
     private int boldness;
     private int acidity;
     private int fizziness;
@@ -31,8 +32,8 @@ public class FoodArticleDTO {
 
     // 수정된 생성자
     public FoodArticleDTO(Long id, String foodName, String foodEnglishName, String photoUrl, String videoUrl,
-                          List<String> primaryIngredients, List<String> sauceIngredients, List<String> instructions,
-                          String wineName, String wineType, int boldness, int acidity, int fizziness, int tannic, int likesCount) {
+                          List<Ingredient> primaryIngredients, List<Ingredient> sauceIngredients, List<String> instructions,
+                          String wineName, WineType wineType, int boldness, int acidity, int fizziness, int tannic, int likesCount) {
         this.id = id;
         this.foodName = foodName;
         this.foodEnglishName = foodEnglishName;
@@ -68,7 +69,7 @@ public class FoodArticleDTO {
         // Wine 객체 생성
         Wine wine = new Wine();
         wine.setName(this.wineName);
-        wine.setType(WineType.valueOf(this.wineType.toUpperCase()));
+        wine.setType(this.wineType);
         wine.setBoldness(this.boldness);
         wine.setAcidity(this.acidity);
         wine.setFizziness(this.fizziness);

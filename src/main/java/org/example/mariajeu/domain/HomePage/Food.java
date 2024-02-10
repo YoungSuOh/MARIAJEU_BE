@@ -1,4 +1,4 @@
-package org.example.mariajeu.domain;
+package org.example.mariajeu.domain.HomePage;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -31,20 +31,18 @@ public class Food {
 
     @ElementCollection
     @CollectionTable(name = "food_primary_ingredients", joinColumns = @JoinColumn(name = "food_id"))
-    @Column(name = "primary_ingredient")
-    private List<String> primaryIngredients; // 필수 재료
+    private List<Ingredient> primaryIngredients;
 
     @ElementCollection
     @CollectionTable(name = "food_sauce_ingredients", joinColumns = @JoinColumn(name = "food_id"))
-    @Column(name = "sauce_ingredient")
-    private List<String> sauceIngredients; // 소스 재료
+    private List<Ingredient> sauceIngredients;
 
     @ElementCollection
     @CollectionTable(name = "food_instructions", joinColumns = @JoinColumn(name = "food_id"))
     @Column(name = "instruction")
-    private List<String> instructions;
+        private List<String> instructions;
 
-    public Food(String name, String englishName, String photoUrl, String videoUrl, List<String> primaryIngredients, List<String> sauceIngredients, List<String> instructions) {
+    public Food(String name, String englishName, String photoUrl, String videoUrl, List<Ingredient> primaryIngredients, List<Ingredient> sauceIngredients, List<String> instructions) {
         this.name = name;
         this.englishName = englishName;
         this.photoUrl = photoUrl;

@@ -1,14 +1,17 @@
-package org.example.mariajeu.service;
+package org.example.mariajeu.service.HomePage;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.mariajeu.domain.Food;
-import org.example.mariajeu.domain.FoodArticle;
-import org.example.mariajeu.domain.Wine;
-import org.example.mariajeu.dto.FoodArticleDTO;
-import org.example.mariajeu.repository.FoodArticleRepository;
-import org.example.mariajeu.repository.FoodRepository;
-import org.example.mariajeu.repository.WineRepository;
+import org.example.mariajeu.domain.HomePage.Food;
+import org.example.mariajeu.domain.HomePage.FoodArticle.FoodArticle;
+import org.example.mariajeu.domain.HomePage.FoodArticle.FoodArticleLikes;
+import org.example.mariajeu.domain.HomePage.Wine;
+import org.example.mariajeu.domain.HomePage.WineType;
+import org.example.mariajeu.dto.HomePage.FoodArticleDTO;
+import org.example.mariajeu.repository.HomePage.FoodArticleLikesRepository;
+import org.example.mariajeu.repository.HomePage.FoodArticleRepository;
+import org.example.mariajeu.repository.HomePage.FoodRepository;
+import org.example.mariajeu.repository.HomePage.WineRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +23,15 @@ public class FoodArticleService {
     private final FoodArticleRepository foodArticleRepository;
     private final FoodRepository foodRepository;
     private final WineRepository wineRepository;
+    private final FoodArticleLikesRepository foodArticleLikesRepository;
+
+    public List<FoodArticleDTO> getFoodArticlesByWineCharacteristics(WineType wineType, int boldness, int acidity, int fizziness, int tannic) {
+        List<FoodArticle> foodArticles = foodArticleRepository.findByWineCharacteristics(wineType, boldness, acidity, fizziness, tannic);
+        return foodArticles.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
 
     // FoodArticle 리스트를 FoodArticleDTO 리스트로 변환
     public List<FoodArticleDTO> getAllFoodArticles() {
@@ -30,8 +42,6 @@ public class FoodArticleService {
 
     // FoodArticle 엔티티를 FoodArticleDTO로 변환
     private FoodArticleDTO convertToDto(FoodArticle foodArticle) {
-        String wineType = foodArticle.getWine().getType() != null ? foodArticle.getWine().getType().name() : "Unknown";
-
         return new FoodArticleDTO(
                 foodArticle.getId(),
                 foodArticle.getFood().getName(),
@@ -42,7 +52,7 @@ public class FoodArticleService {
                 foodArticle.getFood().getSauceIngredients(),
                 foodArticle.getFood().getInstructions(),
                 foodArticle.getWine().getName(),
-                wineType,
+                foodArticle.getWine().getType(),
                 foodArticle.getWine().getBoldness(),
                 foodArticle.getWine().getAcidity(),
                 foodArticle.getWine().getFizziness(),
@@ -87,12 +97,12 @@ public class FoodArticleService {
         return new FoodArticleDTO(updatedFoodArticle);
     }
 
-    public void deleteArticle(Long id) {
-        // ID로 FoodArticle 찾기
-        FoodArticle foodArticle = foodArticleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("FoodArticle not found with id: " + id));
+    public void deleteArticle(Long foodArticleId) {
+        // FoodArticleLikes 레코드 먼저 삭제
+        List<FoodArticleLikes> likes = foodArticleLikesRepository.findByFoodArticleId(foodArticleId);
+        foodArticleLikesRepository.deleteAll(likes);
 
-        // FoodArticle 삭제
-        foodArticleRepository.delete(foodArticle);
+        // 이제 FoodArticle 삭제
+        foodArticleRepository.deleteById(foodArticleId);
     }
 }

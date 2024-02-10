@@ -1,9 +1,9 @@
-package org.example.mariajeu.controller;
+package org.example.mariajeu.controller.HomePage;
 
 import lombok.RequiredArgsConstructor;
-import org.example.mariajeu.domain.FoodArticle;
-import org.example.mariajeu.dto.FoodArticleDTO;
-import org.example.mariajeu.service.FoodArticleService;
+import org.example.mariajeu.domain.HomePage.WineType;
+import org.example.mariajeu.dto.HomePage.FoodArticleDTO;
+import org.example.mariajeu.service.HomePage.FoodArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +42,18 @@ public class FoodArticleController {
     public ResponseEntity<?> deleteArticle(@PathVariable Long id) {
         foodArticleService.deleteArticle(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<FoodArticleDTO>> getFoodArticlesByWineCharacteristics(
+            @RequestParam WineType wineType,
+            @RequestParam int boldness,
+            @RequestParam int acidity,
+            @RequestParam int fizziness,
+            @RequestParam int tannic) {
+
+        List<FoodArticleDTO> articles = foodArticleService.getFoodArticlesByWineCharacteristics(wineType, boldness, acidity, fizziness, tannic);
+        return ResponseEntity.ok(articles);
     }
 }
 

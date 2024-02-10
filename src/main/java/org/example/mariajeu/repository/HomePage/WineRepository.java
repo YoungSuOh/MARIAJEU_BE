@@ -1,6 +1,6 @@
-package org.example.mariajeu.repository;
+package org.example.mariajeu.repository.HomePage;
 
-import org.example.mariajeu.domain.Wine;
+import org.example.mariajeu.domain.HomePage.Wine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
