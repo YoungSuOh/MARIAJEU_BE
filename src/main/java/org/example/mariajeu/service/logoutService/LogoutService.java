@@ -1,4 +1,4 @@
-package org.example.mariajeu.service.userService;
+package org.example.mariajeu.service.logoutService;
 
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;

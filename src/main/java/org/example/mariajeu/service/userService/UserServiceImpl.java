@@ -119,23 +119,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean CheckPassword(String selectedUserName, String selectedUserPassword){
-        Optional<User> selectedUser = userRepository.findByUserName(selectedUserName);
-
-        if (selectedUser.isPresent()) { //찾는 유저가 있으면
-            User user = selectedUser.get();
-            if(!encoder.matches(selectedUserPassword,user.getPassword())){
-                return false;
-            }
-        }
-        else { //찾는 유저가 없으면
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
     public UserListResponse getUser(String userName){
 
         User selectedUser = userRepository.findByUserName(userName)
@@ -170,11 +153,5 @@ public class UserServiceImpl implements UserService {
         em.clear();
         userRepository.delete(user);
     }
-
-
-
-
-
-
 
 }

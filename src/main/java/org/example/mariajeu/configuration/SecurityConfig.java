@@ -1,9 +1,6 @@
 package org.example.mariajeu.configuration;
 
-import jakarta.servlet.http.HttpServletResponse;
-import org.example.mariajeu.exception.AppException;
-import org.example.mariajeu.exception.ErrorCode;
-import org.example.mariajeu.service.userService.LogoutService;
+import org.example.mariajeu.service.logoutService.LogoutService;
 import org.example.mariajeu.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +33,10 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/swagger-ui/**","/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/users/join","/users/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/mail/**").permitAll()
+                        .requestMatchers("/swagger-ui/**","/**").permitAll() //swagger 풀어두기
+                        .requestMatchers(HttpMethod.POST,"/find/**").permitAll() //아이디 찾기, 비밀번호 찾기, 비밀번호 변경 로직
+                        .requestMatchers(HttpMethod.POST,"/users/join","/auth/login").permitAll() //회원가입, 로그인 로직
+                        .requestMatchers(HttpMethod.POST,"/mail/**").permitAll() // 이메일 보내기 로직
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class)

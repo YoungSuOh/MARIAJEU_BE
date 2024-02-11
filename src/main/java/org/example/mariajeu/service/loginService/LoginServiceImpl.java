@@ -1,5 +1,6 @@
-package org.example.mariajeu.service.userService;
+package org.example.mariajeu.service.loginService;
 
+import lombok.extern.java.Log;
 import org.example.mariajeu.domain.userDomain.RefreshToken;
 import org.example.mariajeu.domain.userDomain.User;
 import org.example.mariajeu.dto.userDto.TokenDto;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class LoginService {
+public class LoginServiceImpl implements LoginService {
 
     private final UserRepository userRepository;
     private final JwtRepository jwtRepository;
@@ -29,6 +30,7 @@ public class LoginService {
     private Long expireTimeMs = 60 * 60 * 1000L;
     private Long RefreshTokenexpireTimeMs = 24 * 60 * 60 * 1000L;
 
+    @Override
     public TokenDto login(String userName, String password) { //로그인
         //유저 없음
         User selectedUser = userRepository.findByUserName(userName)

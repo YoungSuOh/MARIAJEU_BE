@@ -5,30 +5,28 @@ import org.example.mariajeu.domain.userDomain.Role;
 import org.example.mariajeu.dto.userDto.*;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
-import org.example.mariajeu.service.userService.LoginService;
-import org.example.mariajeu.service.userService.LogoutService;
-import org.example.mariajeu.service.userService.MailService;
+import org.example.mariajeu.service.logoutService.LogoutService;
+import org.example.mariajeu.service.MailService.MailService;
+import org.example.mariajeu.service.passwordService.PasswordService;
 import org.example.mariajeu.service.userService.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
     private final LogoutService logoutService;
-    private final LoginService loginService;
     private final MailService mailService;
+    private final PasswordService passwordService;
 
     @PostMapping("/join")
     public ResponseEntity<?> join(@Valid @RequestBody UserJoinRequest dto) {
@@ -47,17 +45,10 @@ public class UserController {
     return ResponseEntity.ok().body(dto);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserLoginRequest dto){
-        TokenDto token = loginService.login(dto.getUserName(), dto.getPassword());
-
-        return ResponseEntity.ok().body(token);
-    }
-
     @PatchMapping("/modify")
     public ResponseEntity<?> modify(@Valid @RequestBody UserModifyRequest dto, Authentication authentication) {
         String userName = authentication.getName();
-        if(!userService.CheckPassword(userName,dto.getPassword()))
+        if(!passwordService.CheckPassword(userName,dto.getPassword()))
             throw new AppException(ErrorCode.BAD_REQUEST, "Invalid password.");
 
         userService.modifyUser(userName,dto);
@@ -91,7 +82,7 @@ public class UserController {
             logoutService.logout(request, response, authentication);
 
             UserDeleteResponse userDeleteResponse = UserDeleteResponse.builder()
-                    .status("200")
+                    .status(HttpStatus.OK)
                     .userName(userName)
                     .build();
 

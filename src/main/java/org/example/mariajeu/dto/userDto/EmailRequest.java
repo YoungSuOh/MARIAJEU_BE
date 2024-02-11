@@ -8,6 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EmailRequest {
+
+    private String userName;
+
     @Email
     @NotBlank(message = "이메일을 입력해 주세요")
     private String email;

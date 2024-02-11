@@ -14,12 +14,11 @@ public interface UserService {
 
     void modifyUser(String userName, UserModifyRequest dto);
 
-    Boolean CheckPassword(String selectedUserName, String selectedUserPassword);
-
     UserListResponse getUser(String userName);
 
     List<UserListResponse> getALL();
 
     void deleteUser(String userName);
+
 
 }

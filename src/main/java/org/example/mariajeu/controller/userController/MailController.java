@@ -5,9 +5,10 @@ import org.example.mariajeu.dto.userDto.EmailCheck;
 import org.example.mariajeu.dto.userDto.EmailRequest;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
-import org.example.mariajeu.service.userService.MailService;
+import org.example.mariajeu.service.MailService.MailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +23,12 @@ public class MailController {
     private final MailService mailService;
 
     @PostMapping("/Send")
-    public ResponseEntity<EmailResponse> mailSend(@RequestBody @Valid EmailRequest emailDto) {
-        System.out.println("이메일 인증 이메일 :" + emailDto.getEmail());
+    public ResponseEntity<EmailResponse> mailSend(@RequestBody @Valid EmailRequest dto) {
+        System.out.println("이메일 인증 이메일 :" + dto.getEmail());
 
         EmailResponse emailResponse = EmailResponse.builder()
-                .status("200")
-                .message(mailService.joinEmail(emailDto.getEmail()))
+                .status(HttpStatus.OK)
+                .message(mailService.joinEmail(dto.getEmail()))
                 .build();
 
 
@@ -35,11 +36,11 @@ public class MailController {
     }
 
     @PostMapping("/AuthCheck")
-    public ResponseEntity<EmailResponse> AuthCheck(@RequestBody @Valid EmailCheck emailCheckDto){
-        Boolean Checked=mailService.CheckAuthNum(emailCheckDto.getEmail(),emailCheckDto.getAuthNum());
+    public ResponseEntity<EmailResponse> AuthCheck(@RequestBody @Valid EmailCheck dto){
+        Boolean Checked=mailService.CheckAuthNum(dto.getEmail(),dto.getAuthNum());
 
         EmailResponse emailResponse = EmailResponse.builder()
-                .status("200")
+                .status(HttpStatus.OK)
                 .message("인증이 완료되었습니다")
                 .build();
 

@@ -1,4 +1,4 @@
-package org.example.mariajeu.service.userService;
+package org.example.mariajeu.service.MailService;
 
 import org.example.mariajeu.utils.RedisUtil;
 import jakarta.mail.MessagingException;
@@ -13,12 +13,13 @@ import java.security.SecureRandom;
 
 @RequiredArgsConstructor
 @Service
-public class MailService {
+public class MailServiceImpl implements MailService {
     @Autowired
     private JavaMailSender mailSender;
     private int authNumber;
     private final RedisUtil redisUtil;
 
+    @Override
     public void makeRandomNumber() {
         SecureRandom secureRandom = new SecureRandom();
         StringBuilder randomNumber = new StringBuilder();
@@ -29,14 +30,14 @@ public class MailService {
 
         authNumber = Integer.parseInt(randomNumber.toString());
     }
-
+    @Override
     public String joinEmail(String email) {
         makeRandomNumber();
         String setFrom = "atkheliprac@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력
         String toMail = email;
-        String title = "[Mariajeu]회원 가입 인증 이메일 입니다."; // 이메일 제목
+        String title = "[Mariajeu] 인증 이메일 입니다."; // 이메일 제목
         String content =
-                "Mariajeu 회원가입 코드입니다." + 	//html 형식으로 작성 !
+                "Mariajeu 인증번호 코드입니다." + 	//html 형식으로 작성 !
                         "<br><br>" +
                         "인증 번호는 [" + authNumber + "] 입니다." +
                         "<br><br>" +
@@ -45,7 +46,7 @@ public class MailService {
         redisUtil.setDataExpire(Integer.toString(authNumber),email,1000*60*5);
         return Integer.toString(authNumber);
     }
-
+    @Override
     public void mailSend(String setFrom, String toMail, String title, String content) {
         MimeMessage message = mailSender.createMimeMessage();//JavaMailSender 객체를 사용하여 MimeMessage 객체를 생성
         try {
@@ -60,7 +61,7 @@ public class MailService {
             e.printStackTrace();//e.printStackTrace()는 예외를 기본 오류 스트림에 출력하는 메서드
         }
     }
-
+    @Override
     public boolean CheckAuthNum(String email,String authNum){
         if(redisUtil.getData(authNum)==null){
             return false;
@@ -72,7 +73,7 @@ public class MailService {
             return false;
         }
     }
-
+    @Override
     public void DeleteAuthNum(String authNum){
         redisUtil.deleteData(authNum);
     }
