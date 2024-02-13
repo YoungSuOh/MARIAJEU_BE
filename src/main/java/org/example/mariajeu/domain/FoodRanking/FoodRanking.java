@@ -31,6 +31,4 @@ public class FoodRanking {
     @ManyToOne
     @JoinColumn(name = "wine_id")
     private Wine wine;
-
-
 }
