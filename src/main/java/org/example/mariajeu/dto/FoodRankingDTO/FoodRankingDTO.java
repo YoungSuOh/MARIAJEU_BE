@@ -24,4 +24,5 @@ public class FoodRankingDTO {
         this.comments = comments;
         this.likes = likes;
     }
+    
 }
