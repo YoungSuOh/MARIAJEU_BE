@@ -4,6 +4,7 @@ import org.example.mariajeu.domain.FoodArticle.FoodArticle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+
 import java.util.List;
 
 public interface FoodRankingRepository extends JpaRepository<FoodArticle, Long> {
