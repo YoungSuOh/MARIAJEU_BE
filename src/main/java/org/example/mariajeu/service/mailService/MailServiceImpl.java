@@ -1,6 +1,5 @@
-package org.example.mariajeu.service.MailService;
+package org.example.mariajeu.service.mailService;
 
-import jakarta.mail.internet.InternetAddress;
 import org.example.mariajeu.utils.RedisUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

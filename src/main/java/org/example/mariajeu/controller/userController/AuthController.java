@@ -3,7 +3,7 @@ package org.example.mariajeu.controller.userController;
 import jakarta.validation.Valid;
 import org.example.mariajeu.dto.userDto.TokenDto;
 import org.example.mariajeu.dto.userDto.UserLoginRequest;
-import org.example.mariajeu.dto.userDto.UserResponse;
+import org.example.mariajeu.dto.ResponseDTO;
 import org.example.mariajeu.service.authService.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.mariajeu.service.loginService.LoginService;
 import org.example.mariajeu.service.logoutService.LogoutService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,7 +22,7 @@ public class AuthController {
     private final LogoutService logoutService;
 
     @GetMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<TokenDto> reissue(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
         String refreshToken = authorization.split(" ")[1];
         String newAccessToken = authService.reissue(refreshToken);
@@ -32,14 +31,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserLoginRequest dto){
+    public ResponseEntity<TokenDto> login(@Valid @RequestBody UserLoginRequest dto){
         TokenDto token = loginService.login(dto.getUserName(), dto.getPassword());
-
         return ResponseEntity.ok().body(token);
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<UserResponse> logoutSuccess(HttpServletRequest request) {
+    public ResponseEntity<ResponseDTO> logout(HttpServletRequest request) {
         return ResponseEntity.ok(logoutService.logout(request));
     }
 

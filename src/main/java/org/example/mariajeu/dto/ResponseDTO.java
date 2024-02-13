@@ -1,4 +1,4 @@
-package org.example.mariajeu.dto.userDto;
+package org.example.mariajeu.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 @Setter
 @Builder
 @AllArgsConstructor
-public class EmailResponse {
+public class ResponseDTO {
 
     private HttpStatus status;
     private String message;

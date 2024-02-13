@@ -1,4 +1,4 @@
-package org.example.mariajeu.service.MailService;
+package org.example.mariajeu.service.mailService;
 
 public interface MailService {
 

@@ -2,14 +2,13 @@ package org.example.mariajeu.controller.userController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.mariajeu.dto.userDto.EmailRequest;
 import org.example.mariajeu.dto.userDto.UserModifyRequest;
 import org.example.mariajeu.dto.userDto.UserPwdChangeRequest;
-import org.example.mariajeu.dto.userDto.UserResponse;
+import org.example.mariajeu.dto.ResponseDTO;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
-import org.example.mariajeu.service.MailService.MailServiceImpl;
+import org.example.mariajeu.service.mailService.MailServiceImpl;
 import org.example.mariajeu.service.passwordService.PasswordService;
 import org.example.mariajeu.service.userService.UserService;
 import org.springframework.http.HttpStatus;
@@ -25,34 +24,31 @@ public class PasswordController {
     private final MailServiceImpl mailService;
 
     @PostMapping("/id")
-    public ResponseEntity<UserResponse> findID(@Valid @RequestBody EmailRequest dto) {
+    public ResponseEntity<ResponseDTO> findID(@Valid @RequestBody EmailRequest dto) {
         String userName = passwordService.findID(dto.getEmail());
 
-        UserResponse userResponse = UserResponse.builder()
+        return ResponseEntity.ok().body(ResponseDTO.builder()
                 .status(HttpStatus.OK)
                 .message(userName)
-                .build();
-        return ResponseEntity.ok().body(userResponse);
+                .build()
+        );
     }
 
     @PostMapping("/password")
-    public ResponseEntity<UserResponse> findPWD(@Valid @RequestBody EmailRequest dto) {
+    public ResponseEntity<ResponseDTO> findPWD(@Valid @RequestBody EmailRequest dto) {
         passwordService.findPWD(dto.getUserName());
 
-        UserResponse userResponse = UserResponse.builder()
+        return ResponseEntity.ok().body(ResponseDTO.builder()
                 .status(HttpStatus.OK)
                 .message(mailService.joinEmail(dto.getEmail()))
-                .build();
-
-        return ResponseEntity.ok().body(userResponse);
+                .build()
+        );
     }
 
     @PatchMapping("/changePW")
     public ResponseEntity<?> changePWD(@Valid @RequestBody UserPwdChangeRequest dto) {
         String userName = passwordService.findID(dto.getEmail());
-
-        if(!passwordService.CheckPassword(userName,dto.getPassword()))
-            throw new AppException(ErrorCode.BAD_REQUEST, "입력하신 기존 비밀번호의 입력값이 서로 다릅니다 ");
+        passwordService.CheckPassword(userName,dto.getPassword());
 
         if(!dto.getNewPassword().equals(dto.getNewPasswordAgain()))
             throw new AppException(ErrorCode.BAD_REQUEST, "변경하려는 새 비밀번호의 입력값이 서로 다릅니다.");

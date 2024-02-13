@@ -1,19 +1,16 @@
 package org.example.mariajeu.service.logoutService;
 
-import org.example.mariajeu.dto.userDto.UserResponse;
+import org.example.mariajeu.dto.ResponseDTO;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
 import org.example.mariajeu.repository.userRepository.JwtRepository;
 import org.example.mariajeu.utils.JwtTokenUtil;
 import org.example.mariajeu.utils.RedisUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +25,7 @@ public class LogoutService {
 
 
     @Transactional
-    public UserResponse logout(HttpServletRequest request) {
+    public ResponseDTO logout(HttpServletRequest request) {
 
         String authorization = request.getHeader("Authorization");
 
@@ -49,9 +46,9 @@ public class LogoutService {
 
         SecurityContextHolder.clearContext();
 
-        return UserResponse.builder()
+        return ResponseDTO.builder()
                 .status(HttpStatus.OK)
-                .message(userName + "님이 로그아웃 되었습니다")
+                .message(userName + "님이 로그아웃 되었습니다.")
                 .build();
     }
 }

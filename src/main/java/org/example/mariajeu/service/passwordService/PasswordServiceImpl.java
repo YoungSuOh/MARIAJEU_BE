@@ -6,6 +6,7 @@ import org.example.mariajeu.domain.userDomain.User;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
 import org.example.mariajeu.repository.userRepository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,21 +24,18 @@ public class PasswordServiceImpl implements PasswordService{
 
 
     @Override
-    public Boolean CheckPassword(String selectedUserName, String selectedUserPassword){
+    public void CheckPassword(String selectedUserName, String selectedUserPassword){
         Optional<User> selectedUser = userRepository.findByUserName(selectedUserName);
 
-        if (selectedUser.isPresent()) { //찾는 유저가 있으면
+        if (selectedUser.isPresent()) {
             User user = selectedUser.get();
-            if(!encoder.matches(selectedUserPassword,user.getPassword())){
-                return false;
-            }
+            if (!encoder.matches(selectedUserPassword, user.getPassword()))
+                throw new AppException(ErrorCode.BAD_REQUEST, "잘못된 비밀번호 입력입니다.");
         }
-        else { //찾는 유저가 없으면
-            return false;
-        }
-
-        return true;
+        else
+            throw new AppException(ErrorCode.NOT_FOUND, "해당 인증 정보로 구성된 유저 정보가 없습니다.");
     }
+
     @Override
     public String findID(String email) {
         Optional<User> targetUser = userRepository.findByEmail(email);

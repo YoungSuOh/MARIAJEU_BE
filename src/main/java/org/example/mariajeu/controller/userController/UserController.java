@@ -6,11 +6,10 @@ import org.example.mariajeu.dto.userDto.*;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
 import org.example.mariajeu.service.logoutService.LogoutService;
-import org.example.mariajeu.service.MailService.MailService;
+import org.example.mariajeu.service.mailService.MailService;
 import org.example.mariajeu.service.passwordService.PasswordService;
 import org.example.mariajeu.service.userService.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +29,15 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@Valid @RequestBody UserJoinRequest dto) {
         if (!dto.isAgreedToTerms1() || !dto.isAgreedToTerms2())
-            throw new AppException(ErrorCode.BAD_REQUEST, "Terms agreement is required.");
+            throw new AppException(ErrorCode.BAD_REQUEST, "이용 약관의 필수 항목을 체크해주세요.");
 
 
         boolean isAuthVerified = mailService.CheckAuthNum(dto.getEmail(), dto.getAuthNum());
+
         if (!isAuthVerified)
             throw new AppException(ErrorCode.BAD_REQUEST, "Email verification failed.");
 
         userService.join(dto);
-
         mailService.DeleteAuthNum(dto.getAuthNum());
 
     return ResponseEntity.ok().body(dto);
@@ -47,9 +46,7 @@ public class UserController {
     @PatchMapping("/modify")
     public ResponseEntity<?> modify(@Valid @RequestBody UserModifyRequest dto, Authentication authentication) {
         String userName = authentication.getName();
-        if(!passwordService.CheckPassword(userName,dto.getPassword()))
-            throw new AppException(ErrorCode.BAD_REQUEST, "Invalid password.");
-
+        passwordService.CheckPassword(userName,dto.getPassword());
         userService.modifyUser(userName,dto);
         return ResponseEntity.ok().body(dto);
     }
@@ -80,15 +77,14 @@ public class UserController {
             userService.deleteUser(userName);
             logoutService.logout(request);
 
-            UserDeleteResponse userDeleteResponse = UserDeleteResponse.builder()
+            return ResponseEntity.ok(UserDeleteResponse.builder()
                     .status(HttpStatus.OK)
                     .userName(userName)
-                    .build();
-
-            return ResponseEntity.ok(userDeleteResponse);
+                    .build()
+            );
         }
         else
-            throw new AppException(ErrorCode.BAD_REQUEST, "you don't currently have permission to access this.");
+            throw new AppException(ErrorCode.BAD_REQUEST, "해당 유저를 삭제할 권한이 없습니다.");
     }
 
 
