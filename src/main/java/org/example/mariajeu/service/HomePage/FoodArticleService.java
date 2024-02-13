@@ -105,4 +105,18 @@ public class FoodArticleService {
         // 이제 FoodArticle 삭제
         foodArticleRepository.deleteById(foodArticleId);
     }
+
+    public List<FoodArticleDTO> searchByFoodName(String foodName) {
+        return foodArticleRepository.findByFoodName(foodName)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<FoodArticleDTO> searchByWineType(WineType wineName) {
+        return foodArticleRepository.findByWineType(wineName)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 }

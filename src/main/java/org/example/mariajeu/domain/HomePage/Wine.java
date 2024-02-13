@@ -34,24 +34,25 @@ public class Wine {
     @Enumerated(EnumType.STRING)
     private WineType type; // 와인 타입
 
+    @Column
     @Min(1)
     @Max(100)  // 1~100까지 정도
     private int boldness;
 
+    @Column
     @Min(1)
     @Max(100)
     private int acidity;
 
+    @Column
     @Min(1)
     @Max(100)
     private int fizziness;
 
+    @Column
     @Min(1)
     @Max(100)
     private int tannic;
-
-    @Column(length = 1000)
-    private String typeDescription; // 와인 타입에 대한 설명
 
     public Wine(String name, String type, int boldness,
                 int acidity, int fizziness, int tannic){

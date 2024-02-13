@@ -44,7 +44,7 @@ public class FoodArticleController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/search")
+    @GetMapping("/find")
     public ResponseEntity<List<FoodArticleDTO>> getFoodArticlesByWineCharacteristics(
             @RequestParam WineType wineType,
             @RequestParam int boldness,
@@ -53,6 +53,21 @@ public class FoodArticleController {
             @RequestParam int tannic) {
 
         List<FoodArticleDTO> articles = foodArticleService.getFoodArticlesByWineCharacteristics(wineType, boldness, acidity, fizziness, tannic);
+        return ResponseEntity.ok(articles);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<FoodArticleDTO>> searchFoodArticles(
+            @RequestParam(required = false) String foodName,
+            @RequestParam(required = false) WineType wineType) {
+        List<FoodArticleDTO> articles;
+        if (foodName != null) {
+            articles = foodArticleService.searchByFoodName(foodName);
+        } else if (wineType != null) {
+            articles = foodArticleService.searchByWineType(wineType);
+        } else {
+            articles = foodArticleService.getAllFoodArticles();
+        }
         return ResponseEntity.ok(articles);
     }
 }
