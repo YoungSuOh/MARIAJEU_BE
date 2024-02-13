@@ -47,8 +47,8 @@ public class LogoutService {
         SecurityContextHolder.clearContext();
 
         return ResponseDTO.builder()
-                .status(HttpStatus.OK)
-                .message(userName + "님이 로그아웃 되었습니다.")
+                .SuccessStatus(HttpStatus.OK)
+                .SuccessContent(userName + "님이 로그아웃 되었습니다.")
                 .build();
     }
 }

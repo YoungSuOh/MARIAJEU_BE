@@ -25,8 +25,8 @@ public class MailController {
     @PostMapping("/Send")
     public ResponseEntity<ResponseDTO> mailSend(@RequestBody @Valid EmailRequest dto) {
         return ResponseEntity.ok(ResponseDTO.builder()
-                .status(HttpStatus.OK)
-                .message(mailService.joinEmail(dto.getEmail()))
+                .SuccessStatus(HttpStatus.OK)
+                .SuccessContent(dto.getEmail()+"\n해당 메일에 인증번호가 정상 전송되었습니다.")
                 .build()
         );
     }
@@ -36,8 +36,8 @@ public class MailController {
         boolean Checked=mailService.CheckAuthNum(dto.getEmail(),dto.getAuthNum());
         if(Checked){
             return ResponseEntity.ok(ResponseDTO.builder()
-                    .status(HttpStatus.OK)
-                    .message("인증이 완료되었습니다")
+                    .SuccessStatus(HttpStatus.OK)
+                    .SuccessContent("인증이 완료되었습니다")
                     .build()
             );
         }

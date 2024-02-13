@@ -23,7 +23,7 @@ public class ExceptionManager {
     public ResponseEntity<ErrorDTO> handleAppException(AppException ex) {
         String status = ex.getErrorCode().getMessage();
         ErrorDTO errorDTO = ErrorDTO.builder()
-                .errorCode(status)
+                .errorStatus(status)
                 .errorContent(ex.getMessage())
                 .build();
 

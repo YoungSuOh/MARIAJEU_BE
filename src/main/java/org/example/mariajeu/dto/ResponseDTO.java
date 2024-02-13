@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public class ResponseDTO {
 
-    private HttpStatus status;
-    private String message;
+    private HttpStatus SuccessStatus;
+    private String SuccessContent;
 
 }

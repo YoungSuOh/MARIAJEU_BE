@@ -2,6 +2,7 @@ package org.example.mariajeu.controller.userController;
 
 import jakarta.validation.Valid;
 import org.example.mariajeu.domain.userDomain.Role;
+import org.example.mariajeu.dto.ResponseDTO;
 import org.example.mariajeu.dto.userDto.*;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
@@ -27,7 +28,7 @@ public class UserController {
     private final PasswordService passwordService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(@Valid @RequestBody UserJoinRequest dto) {
+    public ResponseEntity<UserJoinRequest> join(@Valid @RequestBody UserJoinRequest dto) {
         if (!dto.isAgreedToTerms1() || !dto.isAgreedToTerms2())
             throw new AppException(ErrorCode.BAD_REQUEST, "이용 약관의 필수 항목을 체크해주세요.");
 
@@ -69,7 +70,7 @@ public class UserController {
     }
 
     @DeleteMapping("deleteUser/{userName}")
-    public ResponseEntity<UserDeleteResponse> deleteUser(@PathVariable("userName") String userName, Authentication authentication, HttpServletRequest request) {
+    public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("userName") String userName, Authentication authentication, HttpServletRequest request) {
         String reqUser = authentication.getName();
         Role targetRole = userService.getUser(reqUser).getRole();
 
@@ -77,9 +78,9 @@ public class UserController {
             userService.deleteUser(userName);
             logoutService.logout(request);
 
-            return ResponseEntity.ok(UserDeleteResponse.builder()
-                    .status(HttpStatus.OK)
-                    .userName(userName)
+            return ResponseEntity.ok(ResponseDTO.builder()
+                    .SuccessStatus(HttpStatus.OK)
+                    .SuccessContent(userName + "님의 회원 탈퇴가 완료되었습니다.")
                     .build()
             );
         }

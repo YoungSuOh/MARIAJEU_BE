@@ -28,8 +28,8 @@ public class PasswordController {
         String userName = passwordService.findID(dto.getEmail());
 
         return ResponseEntity.ok().body(ResponseDTO.builder()
-                .status(HttpStatus.OK)
-                .message(userName)
+                .SuccessStatus(HttpStatus.OK)
+                .SuccessContent(dto.getEmail() +" 에 해당하는 ID는 [" + userName +"] 입니다")
                 .build()
         );
     }
@@ -39,14 +39,14 @@ public class PasswordController {
         passwordService.findPWD(dto.getUserName());
 
         return ResponseEntity.ok().body(ResponseDTO.builder()
-                .status(HttpStatus.OK)
-                .message(mailService.joinEmail(dto.getEmail()))
+                .SuccessStatus(HttpStatus.OK)
+                .SuccessContent(mailService.joinEmail(dto.getEmail()))
                 .build()
         );
     }
 
     @PatchMapping("/changePW")
-    public ResponseEntity<?> changePWD(@Valid @RequestBody UserPwdChangeRequest dto) {
+    public ResponseEntity<UserModifyRequest> changePWD(@Valid @RequestBody UserPwdChangeRequest dto) {
         String userName = passwordService.findID(dto.getEmail());
         passwordService.CheckPassword(userName,dto.getPassword());
 
