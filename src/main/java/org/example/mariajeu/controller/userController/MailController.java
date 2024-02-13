@@ -24,6 +24,9 @@ public class MailController {
 
     @PostMapping("/Send")
     public ResponseEntity<ResponseDTO> mailSend(@RequestBody @Valid EmailRequest dto) {
+
+        mailService.joinEmail(dto.getEmail());
+
         return ResponseEntity.ok(ResponseDTO.builder()
                 .successStatus(HttpStatus.OK)
                 .successContent(dto.getEmail()+"\n해당 메일에 인증번호가 정상 전송되었습니다.")
