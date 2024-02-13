@@ -5,6 +5,7 @@ import org.example.mariajeu.dto.FoodRankingDTO.FoodRankingDTO;
 import org.example.mariajeu.repository.FoodRankingRepository.FoodRankingRepository;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
