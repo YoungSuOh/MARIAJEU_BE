@@ -44,6 +44,10 @@ public class User{
 
     @NotBlank
     @Column(nullable = false, unique = true, length=50)
+    private String phoneNumber;
+
+    @NotBlank
+    @Column(nullable = false, unique = true, length=50)
     private String nickName; //닉네임
 
     @CreationTimestamp
@@ -60,7 +64,7 @@ public class User{
 
 
     public UserListResponse toDto() {
-        return new UserListResponse(userName, name, email, nickName, role);
+        return new UserListResponse(userName, name, email, phoneNumber, nickName, role);
     }
 
 

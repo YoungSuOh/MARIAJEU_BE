@@ -25,6 +25,9 @@ public class UserModifyRequest {
     @Email
     private String email;
 
+    @Pattern(regexp = "^01[016789]-\\d{3,4}-\\d{4}$", message = "전화번호 형식에 맞게 입력해주세요")
+    private String phoneNumber;
+
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
     private String nickName;
 

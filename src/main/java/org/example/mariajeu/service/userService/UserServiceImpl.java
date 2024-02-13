@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
                 .userName(dto.getUserName())
                 .password(encoder.encode(dto.getPassword()))
                 .email(dto.getEmail())
+                .phoneNumber(dto.getPhoneNumber())
                 .nickName(dto.getNickName())
                 .name(dto.getName())
                 .role(dto.getRole())
@@ -81,6 +82,7 @@ public class UserServiceImpl implements UserService {
 
             user.setPassword(encoder.encode(dto.getNewPassword()));
         }
+
         if (dto.getNickName() != null) {
             if (user.getNickName().equals(dto.getNickName())) {
                 throw new AppException(ErrorCode.CONFLICT, "이미 같은 닉네임으로 설정되어 있습니다.");
@@ -97,6 +99,16 @@ public class UserServiceImpl implements UserService {
             }
             userRepository.findByEmail(dto.getEmail()).ifPresent(user1 -> {
                 throw new AppException(ErrorCode.CONFLICT, "이미 같은 Email이 존재합니다");
+            });
+            user.setEmail(dto.getEmail());
+        }
+
+        if(dto.getPhoneNumber() != null){
+            if(user.getPhoneNumber().equals(dto.getPhoneNumber())) {
+                throw new AppException(ErrorCode.CONFLICT, "이미 같은 번호로 설정되어있습니다.");
+            }
+            userRepository.findByPhoneNumber(dto.getPhoneNumber()).ifPresent(user1 -> {
+                throw new AppException(ErrorCode.CONFLICT, "이미 같은 전화번호가 존재합니다.");
             });
             user.setEmail(dto.getEmail());
         }
@@ -129,6 +141,7 @@ public class UserServiceImpl implements UserService {
                 .name(selectedUser.getName())
                 .nickName(selectedUser.getNickName())
                 .email(selectedUser.getEmail())
+                .phoneNumber(selectedUser.getPhoneNumber())
                 .role(selectedUser.getRole())
                 .build();
 

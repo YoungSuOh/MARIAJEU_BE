@@ -1,6 +1,7 @@
 package org.example.mariajeu.dto.userDto;
 
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -29,6 +30,10 @@ public class UserJoinRequest {
     @Email
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
     private String email;
+
+    @Pattern(regexp = "^01[016789]-\\d{3,4}-\\d{4}$", message = "전화번호 형식에 맞게 입력해주세요")
+    @NotBlank(message = "전화번호는 필수 입력 값입니다.")
+    private String phoneNumber;
 
     @NotBlank(message = "인증번호를 입력해주세요")
     @Size(min = 6, max = 6, message = "인증번호는 6글자 입니다")

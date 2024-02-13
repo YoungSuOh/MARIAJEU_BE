@@ -12,6 +12,7 @@ public class UserListResponse {
     private String userName;
     private String name;
     private String email;
+    private String phoneNumber;
     private String nickName;
     private Role role;
 
