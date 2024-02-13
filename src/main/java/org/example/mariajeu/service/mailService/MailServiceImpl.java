@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class MailServiceImpl implements MailService {
     @Autowired
     private JavaMailSender mailSender;

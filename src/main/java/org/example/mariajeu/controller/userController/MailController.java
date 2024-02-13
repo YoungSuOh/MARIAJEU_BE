@@ -34,7 +34,7 @@ public class MailController {
 
     @PostMapping("/AuthCheck")
     public ResponseEntity<ResponseDTO> AuthCheck(@RequestBody @Valid EmailCheckDTO dto){
-        boolean Checked=mailService.CheckAuthNum(dto.getEmail(),dto.getAuthNum());
+        Boolean Checked=mailService.CheckAuthNum(dto.getEmail(),dto.getAuthNum());
         if(Checked){
             return ResponseEntity.ok(ResponseDTO.builder()
                     .successStatus(HttpStatus.OK)
