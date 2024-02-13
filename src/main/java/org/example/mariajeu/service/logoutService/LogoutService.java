@@ -1,5 +1,6 @@
 package org.example.mariajeu.service.logoutService;
 
+import org.example.mariajeu.dto.userDto.UserResponse;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
 import org.example.mariajeu.repository.userRepository.JwtRepository;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class LogoutService implements LogoutHandler {
+public class LogoutService {
 
     private final JwtRepository jwtRepository;
     private final JwtTokenUtil jwtTokenUtil;
@@ -25,8 +27,7 @@ public class LogoutService implements LogoutHandler {
 
 
     @Transactional
-    @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    public UserResponse logout(HttpServletRequest request) {
 
         String authorization = request.getHeader("Authorization");
 
@@ -45,5 +46,9 @@ public class LogoutService implements LogoutHandler {
         Long expiration = jwtTokenUtil.getExpiration(token);
         redisUtil.setBlackList(token, "access_token", expiration);
 
+        return UserResponse.builder()
+                .status(HttpStatus.OK)
+                .message(userName + "님이 로그아웃 되었습니다")
+                .build();
     }
 }

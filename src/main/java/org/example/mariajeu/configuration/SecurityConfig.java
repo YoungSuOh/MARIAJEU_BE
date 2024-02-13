@@ -1,5 +1,6 @@
 package org.example.mariajeu.configuration;
 
+import jakarta.servlet.RequestDispatcher;
 import org.example.mariajeu.service.logoutService.LogoutService;
 import org.example.mariajeu.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/swagger-ui/**","/**").permitAll() //swagger 풀어두기
+                        //.requestMatchers("/swagger-ui/**","/**").permitAll() //swagger 풀어두기
                         .requestMatchers(HttpMethod.POST,"/find/**").permitAll() //아이디 찾기, 비밀번호 찾기, 비밀번호 변경 로직
                         .requestMatchers(HttpMethod.POST,"/users/join","/auth/login").permitAll() //회원가입, 로그인 로직
                         .requestMatchers(HttpMethod.POST,"/mail/**").permitAll() // 이메일 보내기 로직
@@ -41,11 +42,11 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(new JwtFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class)
 
-                .logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .addLogoutHandler(logoutService)
-                        .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()))
-                )
+//                .logout((logout) -> logout
+//                        .logoutUrl("/logout")
+//                        .addLogoutHandler(logoutService)
+//                        .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())))
+
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );

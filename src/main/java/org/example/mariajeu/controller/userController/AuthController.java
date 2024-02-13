@@ -3,12 +3,15 @@ package org.example.mariajeu.controller.userController;
 import jakarta.validation.Valid;
 import org.example.mariajeu.dto.userDto.TokenDto;
 import org.example.mariajeu.dto.userDto.UserLoginRequest;
+import org.example.mariajeu.dto.userDto.UserResponse;
 import org.example.mariajeu.service.authService.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.mariajeu.service.loginService.LoginService;
+import org.example.mariajeu.service.logoutService.LogoutService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
     private final LoginService loginService;
+    private final LogoutService logoutService;
 
     @GetMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(HttpServletRequest request, HttpServletResponse response) {
@@ -34,6 +38,9 @@ public class AuthController {
         return ResponseEntity.ok().body(token);
     }
 
-
+    @GetMapping("/logout")
+    public ResponseEntity<UserResponse> logoutSuccess(HttpServletRequest request) {
+        return ResponseEntity.ok(logoutService.logout(request));
+    }
 
 }

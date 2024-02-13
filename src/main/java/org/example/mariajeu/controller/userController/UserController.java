@@ -12,7 +12,6 @@ import org.example.mariajeu.service.userService.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -73,13 +72,13 @@ public class UserController {
     }
 
     @DeleteMapping("deleteUser/{userName}")
-    public ResponseEntity<UserDeleteResponse> deleteUser(@PathVariable("userName") String userName, Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<UserDeleteResponse> deleteUser(@PathVariable("userName") String userName, Authentication authentication, HttpServletRequest request) {
         String reqUser = authentication.getName();
         Role targetRole = userService.getUser(reqUser).getRole();
 
         if (targetRole.equals(Role.ADMIN) || reqUser.equals(userName)) {
             userService.deleteUser(userName);
-            logoutService.logout(request, response, authentication);
+            logoutService.logout(request);
 
             UserDeleteResponse userDeleteResponse = UserDeleteResponse.builder()
                     .status(HttpStatus.OK)
