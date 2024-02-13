@@ -30,12 +30,12 @@ public class LogoutService {
         String authorization = request.getHeader("Authorization");
 
         if (authorization == null)
-            throw new AppException(ErrorCode.UNAUTHORIZED,"인증 정보가 유효하지 않습니다.");
+            throw new AppException(ErrorCode.UNAUTHORIZED,"인증 정보가 유효하지 않습니다.",null);
 
         String token = authorization.split(" ")[1];
 
         if (!jwtTokenUtil.validateToken(token)) {
-            throw new AppException(ErrorCode.UNAUTHORIZED,"접근이 금지된 토큰입니다.");
+            throw new AppException(ErrorCode.UNAUTHORIZED,"접근이 금지된 토큰입니다.",null);
         }
 
         String userName = jwtTokenUtil.getUserName(token);
@@ -47,8 +47,8 @@ public class LogoutService {
         SecurityContextHolder.clearContext();
 
         return ResponseDTO.builder()
-                .SuccessStatus(HttpStatus.OK)
-                .SuccessContent(userName + "님이 로그아웃 되었습니다.")
+                .successStatus(HttpStatus.OK)
+                .successContent(userName + "님이 로그아웃 되었습니다.")
                 .build();
     }
 }

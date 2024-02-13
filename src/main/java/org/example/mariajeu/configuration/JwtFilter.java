@@ -36,12 +36,11 @@ try{
         String token = authorization.split(" ")[1];
 
         if (jwtTokenUtil.isExpired(token)){
-            throw new AppException(ErrorCode.UNAUTHORIZED, "만료된 토큰.");
+            throw new AppException(ErrorCode.UNAUTHORIZED, "만료된 토큰.",null);
         }
 
         if (!jwtTokenUtil.validateToken(token)) {
-            throw new AppException(ErrorCode.FORBIDDEN, "유효하지 않은 토큰.");
-
+            throw new AppException(ErrorCode.FORBIDDEN, "유효하지 않은 토큰.",null);
         }
 
         Authentication athentication = jwtTokenUtil.getAthentication(token);

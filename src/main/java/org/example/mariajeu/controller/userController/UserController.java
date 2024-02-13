@@ -28,28 +28,38 @@ public class UserController {
     private final PasswordService passwordService;
 
     @PostMapping("/join")
-    public ResponseEntity<UserJoinRequest> join(@Valid @RequestBody UserJoinRequest dto) {
+    public ResponseEntity<ResponseDTO> join(@Valid @RequestBody UserJoinRequest dto) {
         if (!dto.isAgreedToTerms1() || !dto.isAgreedToTerms2())
-            throw new AppException(ErrorCode.BAD_REQUEST, "이용 약관의 필수 항목을 체크해주세요.");
+            throw new AppException(ErrorCode.BAD_REQUEST, "이용 약관의 필수 항목을 체크해주세요.",dto);
 
 
         boolean isAuthVerified = mailService.CheckAuthNum(dto.getEmail(), dto.getAuthNum());
 
         if (!isAuthVerified)
-            throw new AppException(ErrorCode.BAD_REQUEST, "Email verification failed.");
+            throw new AppException(ErrorCode.BAD_REQUEST, "인증번호가 일치하지 않습니다.",dto);
 
         userService.join(dto);
         mailService.DeleteAuthNum(dto.getAuthNum());
 
-    return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .successStatus(HttpStatus.OK)
+                .successContent("님이 회원가입 되었습니다")
+                .Data(dto)
+                .build()
+        );
     }
 
     @PatchMapping("/modify")
-    public ResponseEntity<?> modify(@Valid @RequestBody UserModifyRequest dto, Authentication authentication) {
+    public ResponseEntity<ResponseDTO> modify(@Valid @RequestBody UserModifyRequest dto, Authentication authentication) {
         String userName = authentication.getName();
         passwordService.CheckPassword(userName,dto.getPassword());
         userService.modifyUser(userName,dto);
-        return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .successStatus(HttpStatus.OK)
+                .successContent("회원 정보가 정상적으로 변경되었습니다.")
+                .Data(dto)
+                .build()
+        );
     }
 
     @GetMapping("/list")
@@ -61,7 +71,7 @@ public class UserController {
             if (user.getRole().equals(Role.ADMIN))
                 return ResponseEntity.ok().body(userService.getALL());
             else
-                throw new AppException(ErrorCode.BAD_REQUEST, "you don't currently have permission to access this.");
+                throw new AppException(ErrorCode.BAD_REQUEST, "해당 접근에 대한 권한이 없습니다.",null);
         }
         else{
             UserListResponse respUser = userService.getUser(target);
@@ -79,13 +89,13 @@ public class UserController {
             logoutService.logout(request);
 
             return ResponseEntity.ok(ResponseDTO.builder()
-                    .SuccessStatus(HttpStatus.OK)
-                    .SuccessContent(userName + "님의 회원 탈퇴가 완료되었습니다.")
+                    .successStatus(HttpStatus.OK)
+                    .successContent(userName + "님의 회원 탈퇴가 완료되었습니다.")
                     .build()
             );
         }
         else
-            throw new AppException(ErrorCode.BAD_REQUEST, "해당 유저를 삭제할 권한이 없습니다.");
+            throw new AppException(ErrorCode.BAD_REQUEST, "해당 유저를 삭제할 권한이 없습니다.",null);
     }
 
 

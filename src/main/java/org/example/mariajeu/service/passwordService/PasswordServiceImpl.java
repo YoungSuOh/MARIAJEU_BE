@@ -30,10 +30,10 @@ public class PasswordServiceImpl implements PasswordService{
         if (selectedUser.isPresent()) {
             User user = selectedUser.get();
             if (!encoder.matches(selectedUserPassword, user.getPassword()))
-                throw new AppException(ErrorCode.BAD_REQUEST, "잘못된 비밀번호 입력입니다.");
+                throw new AppException(ErrorCode.BAD_REQUEST, "잘못된 비밀번호 입력입니다.",selectedUserPassword);
         }
         else
-            throw new AppException(ErrorCode.NOT_FOUND, "해당 인증 정보로 구성된 유저 정보가 없습니다.");
+            throw new AppException(ErrorCode.NOT_FOUND, "해당 인증 정보로 구성된 유저 정보가 없습니다.",selectedUserName);
     }
 
     @Override
@@ -45,14 +45,14 @@ public class PasswordServiceImpl implements PasswordService{
             return user.getUserName();
         }
         else { //찾는 유저가 없으면
-            throw new AppException(ErrorCode.NOT_FOUND,"해당 Email로 가입된 유저가 없습니다.");
+            throw new AppException(ErrorCode.NOT_FOUND,"해당 Email로 가입된 유저가 없습니다.",email);
         }
     }
 
     @Override
     public void findPWD(String userName) {
         User user = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND, "해당" +userName + "가 없습니다."));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND, "해당" +userName + "가 없습니다.",userName));
     }
 
 }

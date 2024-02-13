@@ -25,6 +25,7 @@ public class ExceptionManager {
         ErrorDTO errorDTO = ErrorDTO.builder()
                 .errorStatus(status)
                 .errorContent(ex.getMessage())
+                .data(ex.getData())
                 .build();
 
         return new ResponseEntity<>(errorDTO, ex.getErrorCode().getHttpStatus());

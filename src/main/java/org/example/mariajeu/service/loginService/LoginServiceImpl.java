@@ -34,10 +34,10 @@ public class LoginServiceImpl implements LoginService {
     public TokenDto login(String userName, String password) { //로그인
         //유저 없음
         User selectedUser = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND, userName + "가 없습니다."));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND, userName + "가 없습니다.",null));
         //비번 틀림
         if (!encoder.matches(password, selectedUser.getPassword())) {
-            throw new AppException(ErrorCode.BAD_REQUEST, "비밀번호가 틀렸습니다.");
+            throw new AppException(ErrorCode.BAD_REQUEST, "비밀번호가 틀렸습니다.",null);
         }
         //각 토큰 생성
         String accessToken = JwtTokenUtil.createToken

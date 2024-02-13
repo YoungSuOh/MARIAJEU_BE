@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.mariajeu.service.loginService.LoginService;
 import org.example.mariajeu.service.logoutService.LogoutService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,18 +23,28 @@ public class AuthController {
     private final LogoutService logoutService;
 
     @GetMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(HttpServletRequest request) {
+    public ResponseEntity<ResponseDTO> reissue(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
         String refreshToken = authorization.split(" ")[1];
         String newAccessToken = authService.reissue(refreshToken);
         TokenDto tokenDto = new TokenDto(newAccessToken,null);
-        return ResponseEntity.ok().body(tokenDto);
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .successStatus(HttpStatus.OK)
+                .successContent("토큰 재발급 성공")
+                .Data(tokenDto)
+                .build()
+        );
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@Valid @RequestBody UserLoginRequest dto){
-        TokenDto token = loginService.login(dto.getUserName(), dto.getPassword());
-        return ResponseEntity.ok().body(token);
+    public ResponseEntity<ResponseDTO> login(@Valid @RequestBody UserLoginRequest dto){
+        TokenDto tokenDto = loginService.login(dto.getUserName(), dto.getPassword());
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .successStatus(HttpStatus.OK)
+                .successContent(dto.getUserName()+"님이 로그인 되었습니다. 환영합니다.")
+                .Data(tokenDto)
+                .build()
+        );
     }
 
     @GetMapping("/logout")

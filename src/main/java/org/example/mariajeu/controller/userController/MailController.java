@@ -25,8 +25,9 @@ public class MailController {
     @PostMapping("/Send")
     public ResponseEntity<ResponseDTO> mailSend(@RequestBody @Valid EmailRequest dto) {
         return ResponseEntity.ok(ResponseDTO.builder()
-                .SuccessStatus(HttpStatus.OK)
-                .SuccessContent(dto.getEmail()+"\n해당 메일에 인증번호가 정상 전송되었습니다.")
+                .successStatus(HttpStatus.OK)
+                .successContent(dto.getEmail()+"\n해당 메일에 인증번호가 정상 전송되었습니다.")
+                .Data(dto)
                 .build()
         );
     }
@@ -36,13 +37,14 @@ public class MailController {
         boolean Checked=mailService.CheckAuthNum(dto.getEmail(),dto.getAuthNum());
         if(Checked){
             return ResponseEntity.ok(ResponseDTO.builder()
-                    .SuccessStatus(HttpStatus.OK)
-                    .SuccessContent("인증이 완료되었습니다")
+                    .successStatus(HttpStatus.OK)
+                    .successContent("인증이 완료되었습니다")
+                    .Data(dto)
                     .build()
             );
         }
         else{
-            throw new AppException(ErrorCode.BAD_REQUEST,"인증 번호가 맞지 않습니다.");
+            throw new AppException(ErrorCode.BAD_REQUEST,"인증 번호가 맞지 않습니다.",dto);
         }
     }
 

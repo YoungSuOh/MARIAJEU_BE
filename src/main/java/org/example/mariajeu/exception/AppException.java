@@ -8,4 +8,5 @@ import lombok.Getter;
 public class AppException extends RuntimeException{
     protected ErrorCode errorCode;
     private String message;
+    private Object data;
 }

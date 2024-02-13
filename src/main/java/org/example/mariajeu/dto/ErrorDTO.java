@@ -8,4 +8,6 @@ import lombok.Setter;
 public class ErrorDTO {
     private String errorStatus;
     private String errorContent;
+    private Object data;
+
 }

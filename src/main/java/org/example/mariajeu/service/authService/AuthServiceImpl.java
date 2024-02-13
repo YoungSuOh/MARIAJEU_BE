@@ -29,13 +29,13 @@ public class AuthServiceImpl implements AuthService{
         String newAccessToken;
         RefreshToken dbTokenObj = jwtRepository.findByRefreshToken(refreshToken);
         if (!JwtTokenUtil.getTokenType(refreshToken,key).equals("refreshToken"))
-            throw new AppException(ErrorCode.BAD_REQUEST, "제공하신 토큰은 RefreshToken이 아닙니다.");
+            throw new AppException(ErrorCode.BAD_REQUEST, "제공하신 토큰은 RefreshToken이 아닙니다.",refreshToken);
 
         if (dbTokenObj == null || !refreshToken.equals(dbTokenObj.getRefreshToken())) {
-            throw new AppException(ErrorCode.NOT_FOUND, "해당 토큰이 없습니다.");
+            throw new AppException(ErrorCode.NOT_FOUND, "해당 토큰이 없습니다.",refreshToken);
         } else {
             Optional<User> user = userRepository.findByUserName(dbTokenObj.getUserName());
-            User userData = user.orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND, "사용자를 찾을 수 없습니다."));
+            User userData = user.orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND, "사용자를 찾을 수 없습니다.",null));
             newAccessToken = JwtTokenUtil.createToken(userData.getUserName(),"accessToken", key, expireTimeMs);
         }
 

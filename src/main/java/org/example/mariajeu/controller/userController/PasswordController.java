@@ -28,8 +28,8 @@ public class PasswordController {
         String userName = passwordService.findID(dto.getEmail());
 
         return ResponseEntity.ok().body(ResponseDTO.builder()
-                .SuccessStatus(HttpStatus.OK)
-                .SuccessContent(dto.getEmail() +" 에 해당하는 ID는 [" + userName +"] 입니다")
+                .successStatus(HttpStatus.OK)
+                .successContent(dto.getEmail() +" 에 해당하는 ID는 [" + userName +"] 입니다")
                 .build()
         );
     }
@@ -39,19 +39,19 @@ public class PasswordController {
         passwordService.findPWD(dto.getUserName());
 
         return ResponseEntity.ok().body(ResponseDTO.builder()
-                .SuccessStatus(HttpStatus.OK)
-                .SuccessContent(mailService.joinEmail(dto.getEmail()))
+                .successStatus(HttpStatus.OK)
+                .successContent(mailService.joinEmail(dto.getEmail()))
                 .build()
         );
     }
 
     @PatchMapping("/changePW")
-    public ResponseEntity<UserModifyRequest> changePWD(@Valid @RequestBody UserPwdChangeRequest dto) {
+    public ResponseEntity<ResponseDTO> changePWD(@Valid @RequestBody UserPwdChangeRequest dto) {
         String userName = passwordService.findID(dto.getEmail());
         passwordService.CheckPassword(userName,dto.getPassword());
 
         if(!dto.getNewPassword().equals(dto.getNewPasswordAgain()))
-            throw new AppException(ErrorCode.BAD_REQUEST, "변경하려는 새 비밀번호의 입력값이 서로 다릅니다.");
+            throw new AppException(ErrorCode.BAD_REQUEST, "변경하려는 새 비밀번호의 입력값이 서로 다릅니다.",dto);
 
         UserModifyRequest userModifyRequest = UserModifyRequest.builder()
                 .newPassword(dto.getNewPassword())
@@ -59,7 +59,12 @@ public class PasswordController {
 
         userService.modifyUser(userName,userModifyRequest);
 
-        return ResponseEntity.ok().body(userModifyRequest);
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .successStatus(HttpStatus.OK)
+                .successContent("비밀번호가 정상적으로 변경되었습니다.")
+                .Data(userModifyRequest)
+                .build()
+        );
     }
 
 }
