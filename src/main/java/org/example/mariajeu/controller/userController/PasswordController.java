@@ -8,7 +8,7 @@ import org.example.mariajeu.dto.userDto.UserPwdChangeRequest;
 import org.example.mariajeu.dto.ResponseDTO;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
-import org.example.mariajeu.service.mailService.MailServiceImpl;
+import org.example.mariajeu.service.MailService.MailServiceImpl;
 import org.example.mariajeu.service.passwordService.PasswordService;
 import org.example.mariajeu.service.userService.UserService;
 import org.springframework.http.HttpStatus;

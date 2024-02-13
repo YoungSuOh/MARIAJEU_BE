@@ -5,7 +5,7 @@ import org.example.mariajeu.dto.userDto.EmailCheckDTO;
 import org.example.mariajeu.dto.userDto.EmailRequest;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
-import org.example.mariajeu.service.mailService.MailService;
+import org.example.mariajeu.service.MailService.MailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

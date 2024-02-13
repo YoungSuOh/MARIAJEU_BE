@@ -7,7 +7,7 @@ import org.example.mariajeu.dto.userDto.*;
 import org.example.mariajeu.exception.AppException;
 import org.example.mariajeu.exception.ErrorCode;
 import org.example.mariajeu.service.logoutService.LogoutService;
-import org.example.mariajeu.service.mailService.MailService;
+import org.example.mariajeu.service.MailService.MailService;
 import org.example.mariajeu.service.passwordService.PasswordService;
 import org.example.mariajeu.service.userService.UserService;
 import jakarta.servlet.http.HttpServletRequest;
