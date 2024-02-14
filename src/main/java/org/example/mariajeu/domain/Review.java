@@ -1,11 +1,19 @@
 package org.example.mariajeu.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.example.mariajeu.dto.review.ReviewDto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Review {
+@Getter
+@NoArgsConstructor
+@Entity
+@Table(name = "review")
+public class Review extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,14 +24,17 @@ public class Review {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @Column(nullable = false)
     private String content; // 리뷰 내용
 
-    //    private String image; // 리뷰 이미지 -> S3 사용해서 URL로?
+    private String reviewImg; // 리뷰 이미지 -> S3 사용해서 URL로?
 
-    @Column(nullable = false)
-    private LocalDate date; // 리뷰 생성 날짜
+    @Builder
+    public Review(ReviewDto reviewDto, Restaurant restaurant, String reviewImg) {
+        this.restaurant = restaurant;
+        this.content = reviewDto.getContent();
+        this.reviewImg = reviewImg;
+    }
 
-    @Column(nullable = false)
-    private LocalTime time; // 리뷰 생성 시간
 
 }

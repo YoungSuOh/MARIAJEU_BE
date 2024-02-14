@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.mariajeu.dto.menu.MenuDto;
 import org.example.mariajeu.dto.restaurant.RestaurantRequestDto;
 import org.example.mariajeu.dto.restaurant.RestaurantResponseDto;
+import org.example.mariajeu.dto.review.ReviewDto;
 import org.example.mariajeu.service.MenuService;
 import org.example.mariajeu.service.RestaurantNotFoundException;
 import org.example.mariajeu.service.RestaurantService;
+import org.example.mariajeu.service.ReviewService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class RestaurantController {
     private final RestaurantService restaurantService;
     private final MenuService menuService;
+    private final ReviewService reviewService;
 
     // (관리자) 새로운 레스토랑
     @PostMapping
@@ -65,5 +68,17 @@ public class RestaurantController {
     public void deleteMenu(@PathVariable Long menuId) {
         menuService.deleteMenu(menuId);
     }
+
+    // 레스토랑 리뷰 작성
+    @PostMapping("/{restaurantId}/review")
+    public Long registerReview(@PathVariable final Long restaurantId, @RequestPart("data") ReviewDto reviewDto, @RequestPart(required = false) MultipartFile reviewImg) {
+        return reviewService.registerReview(reviewDto, restaurantId, reviewImg);
+    }
+
+    @DeleteMapping("/{restaurantId}/review/{reviewId}")
+    public void deleteReview(@PathVariable Long reviewId, @PathVariable String restaurantId) {
+        reviewService.deleteReview(reviewId);
+    }
+
 
 }

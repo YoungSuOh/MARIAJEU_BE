@@ -26,6 +26,9 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservationList = new ArrayList<>(); // 예약 리스트
 
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<Review> reviewList = new ArrayList<>();
+
     @Column(nullable = false)
     private String name; //가게 이름
 
