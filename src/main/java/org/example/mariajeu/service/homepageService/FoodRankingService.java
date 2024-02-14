@@ -1,8 +1,8 @@
-package org.example.mariajeu.service.FoodRankingService;
+package org.example.mariajeu.service.homepageService;
 
-import org.example.mariajeu.domain.FoodArticle.FoodArticle;
-import org.example.mariajeu.dto.FoodRankingDTO.FoodRankingDTO;
-import org.example.mariajeu.repository.FoodRankingRepository.FoodRankingRepository;
+import org.example.mariajeu.domain.homepageDomain.FoodArticle.FoodArticle;
+import org.example.mariajeu.dto.homepageDto.FoodRankingDTO;
+import org.example.mariajeu.repository.homepageRepository.FoodRankingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

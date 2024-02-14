@@ -1,7 +1,7 @@
-package org.example.mariajeu.controller.FoodRankingController;
+package org.example.mariajeu.controller.homepageController;
 
-import org.example.mariajeu.dto.FoodRankingDTO.FoodRankingDTO;
-import org.example.mariajeu.service.FoodRankingService.FoodRankingService;
+import org.example.mariajeu.dto.homepageDto.FoodRankingDTO;
+import org.example.mariajeu.service.homepageService.FoodRankingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

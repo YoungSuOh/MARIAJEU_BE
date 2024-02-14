@@ -1,9 +1,9 @@
-package org.example.mariajeu.domain.FoodRanking;
+package org.example.mariajeu.domain.homepageDomain.foodRankingDomain;
 
 import jakarta.persistence.*;
-import org.example.mariajeu.domain.Food;
-import org.example.mariajeu.domain.FoodArticle.FoodArticle;
-import org.example.mariajeu.domain.Wine;
+import org.example.mariajeu.domain.homepageDomain.Food;
+import org.example.mariajeu.domain.homepageDomain.FoodArticle.FoodArticle;
+import org.example.mariajeu.domain.homepageDomain.Wine;
 
 @Entity
 public class FoodRanking {
