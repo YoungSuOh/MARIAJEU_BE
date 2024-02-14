@@ -35,6 +35,7 @@ public class FoodArticle {
     @OneToMany(mappedBy = "foodArticle")
     private Set<Comment> comments;
 
+    private int views;
     @Builder
     public FoodArticle(Food food, Wine wine, Set<FoodArticleLikes> likes) {
         this.food = food;
