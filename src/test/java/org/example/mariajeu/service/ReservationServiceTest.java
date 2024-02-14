@@ -1,12 +1,14 @@
 package org.example.mariajeu.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.mariajeu.domain.Reservation;
-import org.example.mariajeu.dto.reservation.ReservationRequestDto;
-import org.example.mariajeu.dto.restaurant.RestaurantRequestDto;
+import org.example.mariajeu.domain.restaurantDomain.Reservation;
+import org.example.mariajeu.dto.restaurantDto.reservation.ReservationRequestDto;
+import org.example.mariajeu.dto.restaurantDto.restaurant.RestaurantRequestDto;
 import org.example.mariajeu.facade.LettuceLockStockFacade;
-import org.example.mariajeu.repository.ReservationRepository;
-import org.example.mariajeu.repository.RestaurantRepository;
+import org.example.mariajeu.repository.restaurantRepository.ReservationRepository;
+import org.example.mariajeu.repository.restaurantRepository.RestaurantRepository;
+import org.example.mariajeu.service.restaurantService.ReservationService;
+import org.example.mariajeu.service.restaurantService.RestaurantService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package org.example.mariajeu.facade;
 
 import lombok.RequiredArgsConstructor;
-import org.example.mariajeu.dto.reservation.ReservationRequestDto;
-import org.example.mariajeu.repository.RedisLockRepository;
-import org.example.mariajeu.service.ReservationService;
+import org.example.mariajeu.dto.restaurantDto.reservation.ReservationRequestDto;
+import org.example.mariajeu.repository.restaurantRepository.RedisLockRepository;
+import org.example.mariajeu.service.restaurantService.ReservationService;
 import org.springframework.stereotype.Component;
 
 @Component
