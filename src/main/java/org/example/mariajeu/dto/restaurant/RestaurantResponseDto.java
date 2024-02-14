@@ -7,6 +7,7 @@ import org.example.mariajeu.domain.Restaurant;
 import org.example.mariajeu.dto.menu.MenuDto;
 import org.example.mariajeu.dto.reservation.ReservationDto;
 import org.example.mariajeu.dto.review.ReviewDto;
+import org.example.mariajeu.dto.review.ReviewResponseDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,12 +24,12 @@ public class RestaurantResponseDto { // 식당 메인 메뉴 페이지 response
 
     private final List<ReservationDto> reservations;
     private final List<MenuDto> menus;
-    private final List<ReviewDto> reviews;
+    private final List<ReviewResponseDto> reviews;
     private final String restaurantImg;
 
     // 생성자
     @Builder
-    public RestaurantResponseDto(Long id, String name, String address, Long corkage, String averagePrice, String info, List<ReservationDto> reservations, List<MenuDto> menus, List<ReviewDto> reviews, String restaurantImg) {
+    public RestaurantResponseDto(Long id, String name, String address, Long corkage, String averagePrice, String info, List<ReservationDto> reservations, List<MenuDto> menus, List<ReviewResponseDto> reviews, String restaurantImg) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -50,8 +51,8 @@ public class RestaurantResponseDto { // 식당 메인 메뉴 페이지 response
         List<MenuDto> menuDtos = restaurant.getMenuList().stream()
                 .map(MenuDto::fromEntity)
                 .collect(Collectors.toList());
-        List<ReviewDto> reviewDtos = restaurant.getReviewList().stream()
-                .map(ReviewDto::fromEntity)
+        List<ReviewResponseDto> reviewResponseDtos = restaurant.getReviewList().stream()
+                .map(ReviewResponseDto::fromEntity)
                 .collect(Collectors.toList());
         return RestaurantResponseDto.builder()
                 .id(restaurant.getId())
@@ -63,7 +64,7 @@ public class RestaurantResponseDto { // 식당 메인 메뉴 페이지 response
                 .reservations(reservationDtos)
                 .menus(menuDtos)
                 .restaurantImg(restaurant.getRestaurantImg())
-                .reviews(reviewDtos)
+                .reviews(reviewResponseDtos)
                 .build();
     }
 }

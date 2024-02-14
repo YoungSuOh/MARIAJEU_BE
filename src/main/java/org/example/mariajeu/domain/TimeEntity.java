@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 public class TimeEntity {
 
     @CreatedDate
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDateTime;
 
     @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    private LocalDateTime modifiedDateTime;
 }
