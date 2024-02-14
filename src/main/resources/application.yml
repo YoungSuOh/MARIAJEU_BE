@@ -15,3 +15,16 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         show-sql: true
+
+# S3 Configuration
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      accessKey: AKIA3FLDZRXQNIDZN46C
+      secretKey: 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
+    s3:
+      bucket: umc-mariajeu
