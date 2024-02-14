@@ -1,9 +1,10 @@
-package org.example.mariajeu.dto.FoodRankingDTO;
+package org.example.mariajeu.dto.homepageDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.mariajeu.domain.FoodArticle.FoodArticle;
+import org.example.mariajeu.domain.homepageDomain.FoodArticle.FoodArticle;
+
 
 @Data
 @AllArgsConstructor
@@ -24,5 +25,5 @@ public class FoodRankingDTO {
         this.comments = comments;
         this.likes = likes;
     }
-    
+
 }

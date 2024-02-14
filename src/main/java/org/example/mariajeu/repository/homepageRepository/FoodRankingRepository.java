@@ -1,9 +1,8 @@
-package org.example.mariajeu.repository.FoodRankingRepository;
+package org.example.mariajeu.repository.homepageRepository;
 
-import org.example.mariajeu.domain.FoodArticle.FoodArticle;
+import org.example.mariajeu.domain.homepageDomain.FoodArticle.FoodArticle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 
 import java.util.List;
 
