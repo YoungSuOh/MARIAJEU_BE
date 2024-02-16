@@ -25,6 +25,7 @@ public class RestaurantController {
     // (관리자) 새로운 레스토랑
     @PostMapping
     public Long registerRestaurant(@RequestPart("data") RestaurantRequestDto restaurantRequestDto, @RequestPart(required = false) MultipartFile restaurantImg) {
+//        System.out.println("restaurantRequestDto" + restaurantRequestDto);
         return restaurantService.registerRestaurant(restaurantRequestDto, restaurantImg);
     }
 
@@ -79,6 +80,15 @@ public class RestaurantController {
     public void deleteReview(@PathVariable Long reviewId, @PathVariable String restaurantId) {
         reviewService.deleteReview(reviewId);
     }
+
+    // 검색 기능
+//    @GetMapping("/search")
+//    public List<RestaurantResponseDto> search(@RequestParam(value = "keyword") String keyword, Model model) {
+//        List<SearchResponseDto> foundList = searchService.search(keyword);
+//        model.addAttribute("foundList",foundList);
+//        return foundList;
+//    }
+
 
 
 }

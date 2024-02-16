@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.mariajeu.domain.userDomain.User;
 import org.example.mariajeu.dto.restaurantDto.restaurant.RestaurantRequestDto;
 
 import java.util.ArrayList;
