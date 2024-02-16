@@ -37,7 +37,7 @@ public class FoodArticleController {
         return ResponseEntity.ok(updatedArticleDTO);
     }
 
-    // FoodArticle 수정
+    // FoodArticle 찾기
     @GetMapping("/{id}")
     public ResponseEntity<?> findArticle(@PathVariable Long id) {
         FoodArticleDTO updatedArticleDTO = foodArticleService.getFoodArticles(id);

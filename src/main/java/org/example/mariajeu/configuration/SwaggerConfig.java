@@ -33,7 +33,7 @@ public class SwaggerConfig {
 
     private Info apiInfo() {
         return new Info()
-                .title("마리아루")
+                .title("Mariajeu")
                 .description("마리아주 SwaggerTest")
                 .version("1.0.0");
     }
