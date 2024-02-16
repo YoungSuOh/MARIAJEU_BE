@@ -158,7 +158,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String userName){
-
         User user = userRepository.findByUsername(userName);
         Terms terms = user.getTerms();
         termsRepository.delete(terms);
