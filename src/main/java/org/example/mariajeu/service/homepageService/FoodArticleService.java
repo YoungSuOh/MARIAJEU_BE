@@ -119,4 +119,11 @@ public class FoodArticleService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
+    public FoodArticleDTO getFoodArticles(Long id) {
+        FoodArticle foodArticle = foodArticleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("FoodArticle not found with id: " + id));
+
+        return convertToDto(foodArticle);
+    }
 }

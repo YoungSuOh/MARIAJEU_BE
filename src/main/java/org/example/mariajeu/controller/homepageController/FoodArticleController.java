@@ -37,6 +37,13 @@ public class FoodArticleController {
         return ResponseEntity.ok(updatedArticleDTO);
     }
 
+    // FoodArticle 수정
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findArticle(@PathVariable Long id) {
+        FoodArticleDTO updatedArticleDTO = foodArticleService.getFoodArticles(id);
+        return ResponseEntity.ok(updatedArticleDTO);
+    }
+
     // FoodArticle 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArticle(@PathVariable Long id) {

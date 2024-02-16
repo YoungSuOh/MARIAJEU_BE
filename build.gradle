@@ -59,7 +59,7 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
 
-
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
 
 }
 
