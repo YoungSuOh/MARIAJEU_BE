@@ -35,6 +35,15 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	//redis 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	//s3
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+
 	implementation 'org.springframework.boot:spring-boot-starter-security' //Spring Security
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.0.5' //Mail
 
@@ -62,7 +71,3 @@ dependencies {
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
 
 }
-
-//tasks.named('test') {
-//	useJUnitPlatform()
-//}

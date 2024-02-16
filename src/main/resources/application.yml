@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mariajeu?serverTimezone=Asia/Seoul
+    username: root
+    password: Simzard10!
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show-sql: true
+
+# S3 Configuration
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      accessKey: AKIA3FLDZRXQNIDZN46C
+      secretKey: 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
+    s3:
+      bucket: umc-mariajeu
