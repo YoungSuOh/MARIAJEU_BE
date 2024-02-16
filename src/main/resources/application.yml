@@ -1,20 +1,70 @@
 spring:
   datasource:
+    url: jdbc:mysql://mariajeu-database.c3ow6gooafno.ap-northeast-2.rds.amazonaws.com/Mariajeu
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mariajeu?serverTimezone=Asia/Seoul
-    username: root
-    password: Simzard10!
+    username: admin
+    password: mariajeu
+    hikari:
+      poolName: Hikari
+      maximum-pool-size: 15
+      max-lifetime: 1800000
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: umcmariajeu@gmail.com
+    password: wvvzrfbxvjumibrp
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+            protocols: TLSv1.2
+        debug: true
 
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         show-sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  servlet:
+    encoding:
+      force-response: true
+
+jwt:
+  token:
+    secret: "IzesBluyiKsuIHpSBPPcFUFngHuwDagp"
+
+springdoc:
+  swagger-ui:
+    path: /
+    operations-sorter: alpha
+    display-request-duration: true
+
 
 # S3 Configuration
 cloud:
